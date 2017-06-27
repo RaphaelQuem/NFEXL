@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extension\XmlDocumentExtension.cs" />
+    <Compile Include="Attributes\ColumnNameAtributte.cs" />
+    <Compile Include="Extension\StringExtension.cs" />
+    <Compile Include="Extension\XmlExtension.cs" />
     <Compile Include="Model\CFe.cs" />
     <Compile Include="Model\CFeItem.cs" />
     <Compile Include="Model\IFiscalDocument.cs" />

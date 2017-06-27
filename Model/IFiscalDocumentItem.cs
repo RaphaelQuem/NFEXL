@@ -1,8 +1,9 @@
-﻿namespace NFEXL.Model
+﻿using NFEXL.Attributes;
+
+namespace NFEXL.Model
 {
     public interface IFiscalDocumentItem
     {
-
         string ProductCode { get; set; }
         string ProductName  { get; set; }
         uint ProductFiscalGroup { get; set; }
@@ -17,6 +18,8 @@
         double Tax2 { get; set; }
         double Tax3Perc { get; set; }
         double Tax3 { get; set; }
+        double PartialShipping { get; set; }
+        double PartialDiscount { get; set; }
 
     }
 }

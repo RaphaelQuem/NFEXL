@@ -1,4 +1,5 @@
-﻿using NFEXL.Extension;
+﻿using NFEXL.Attributes;
+using NFEXL.Extension;
 using NFEXL.Model;
 using OfficeOpenXml;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -15,17 +17,6 @@ namespace ConsoleApplication1
 {
     class Program
     {
-        static string cnpj = "";
-        static string razao = "";
-        static string data = "";
-        static string chave = "";
-        static string cpf = "";
-        static string cli = "";
-        static string uf = "";
-        static string vnf = "";
-        static string natop = "";
-        static string entsai = "";
-        static string basecalc = "";
         static void Main(string[] args)
         {
 
@@ -40,49 +31,41 @@ namespace ConsoleApplication1
             using (ExcelPackage package = new ExcelPackage(file))
             {
                 ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Exportação");
-
-                worksheet.Cells[1, 1].Value = "CNPJ";
-                worksheet.Cells[1, 2].Value = "RAZAO";
-                worksheet.Cells[1, 3].Value = "DATA";
-                worksheet.Cells[1, 4].Value = "CHAVE";
-                worksheet.Cells[1, 5].Value = "CPF";
-                worksheet.Cells[1, 6].Value = "NOME";
-                worksheet.Cells[1, 7].Value = "UF";
-                worksheet.Cells[1, 8].Value = "BC";
-                worksheet.Cells[1, 9].Value = "TOTAL";
-                worksheet.Cells[1, 10].Value = "NAT OP";
-                worksheet.Cells[1, 11].Value = "TIPO";
-
+                ExcelWorksheet logsheet = package.Workbook.Worksheets.Add("Log");
 
 
                 int rowNumber = 2;
                 foreach (string ped in Directory.EnumerateFiles(dir))
                 {
+
+                    XmlDocument xml = new XmlDocument();
+                    xml.Load(ped);
                     try
                     {
-                        XmlDocument xml = new XmlDocument();
-                        xml.Load(ped);
+                        IFiscalDocument doc = xml.ToFiscalDocument();
+                        for (int i = 0; i < doc.GetType().GetProperties().Count(); i++)
+                        {
+                            try
+                            {
+                                PropertyInfo prop = doc.GetType().GetProperties().Where(prp => ((ColumnNameAttribute)prp.GetCustomAttributes(true)[0]).Order.Equals(i)).FirstOrDefault();
+                                ColumnNameAttribute att = ((ColumnNameAttribute)prop.GetCustomAttributes(true)[0]);
 
-                        IFiscalDocument doc = xml.ToFiscalDocument();   
+                                if (rowNumber.Equals(2))
+                                {
+                                    worksheet.Cells[rowNumber - 1, i].Value = att.Name;
+                                }
+                                worksheet.Cells[rowNumber, i].Value = doc.GetType().GetProperties()[i].GetValue(doc);
 
+                            }
+                            catch (Exception ex)
+                            {
+                            }
+                        }
                     }
                     catch
                     {
 
                     }
-                    worksheet.Cells[rowNumber, 1].Value = cnpj;
-                    worksheet.Cells[rowNumber, 2].Value = razao;
-                    worksheet.Cells[rowNumber, 3].Value = data;
-                    worksheet.Cells[rowNumber, 4].Value = chave;
-                    worksheet.Cells[rowNumber, 5].Value = cpf;
-                    worksheet.Cells[rowNumber, 6].Value = cli;
-                    worksheet.Cells[rowNumber, 7].Value = uf;
-                    worksheet.Cells[rowNumber, 8].Value = basecalc;
-                    worksheet.Cells[rowNumber, 9].Value = vnf;
-                    worksheet.Cells[rowNumber, 10].Value = natop;
-                    worksheet.Cells[rowNumber, 11].Value = entsai;
-
-
                     rowNumber++;
                 }
 
@@ -90,6 +73,7 @@ namespace ConsoleApplication1
 
             }
         }
+        /*
         private void ReturnCFE(string ped)
             {
             XmlDocument doc = new XmlDocument();
@@ -191,6 +175,6 @@ namespace ConsoleApplication1
                 entsai = node.InnerText;
 
 
-        }
+        }*/
     }
 }

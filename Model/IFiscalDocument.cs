@@ -13,6 +13,7 @@ namespace NFEXL.Model
         string CompanyName { get; set; }
         string ClientCode { get; set; }
         string ClientName { get; set; }
+        string ClientState { get; set; }
         List<IFiscalDocumentItem> Items { get; set; }
         double TotalDiscount { get; set; }
         double TotalShipping { get; set; }
