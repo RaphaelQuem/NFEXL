@@ -11,82 +11,81 @@ namespace NFEXL.Model
 {
     public class CFe : IFiscalDocument
     {
-
-        [ColumnName(Name = "ITEMS", Order = 99)]
-        public List<IFiscalDocumentItem> Items
-        {
-            get;
-            set;
-        }
-        [ColumnName(Name = "DATA", Order = 1)]
+        [XL(Name = "DATA", Order = 1)]
         public string EmissionDate
         {
             get;
             set;
         }
-        [ColumnName(Name = "CHAVE", Order = 2)]
+        [XL(Name = "CHAVE", Order = 2)]
         public string Key
         {
             get;
             set;
         }
-        [ColumnName(Name = "TIPO", Order = 3)]
-        public string Mod
-        {
-            get;
-            set;
-        }
-        [ColumnName(Name = "UF", Order = 4)]
-        public string State
-        {
-            get;
-            set;
-        }
-        [ColumnName(Name = "CPF", Order = 5)]
-        public string ClientCode
-        {
-            get;
-            set;
-        }
-        [ColumnName(Name = "NOME CLI", Order = 6)]
-        public string ClientName
-        {
-            get;
-            set;
-        }
-        [ColumnName(Name = "UF CLI", Order = 7)]
-        public string ClientState
-        {
-            get;
-            set;
-        }
-        [ColumnName(Name = "CNPJ", Order = 8)]
-        public string CompanyCode
-        {
-            get;
-            set;
-        }
-        [ColumnName(Name = "RAZAO", Order = 9)]
-        public string CompanyName { get; set; }
-        [ColumnName(Name = "NUMERO", Order = 10)]
+        [XL(Name = "NUMERO", Order = 3)]
         public uint DocumentNumber
         {
             get;
             set;
         }
-        [ColumnName(Name = "DESCONTO", Order = 11)]
+        [XL(Name = "TIPO", Order = 4)]
+        public string Mod
+        {
+            get;
+            set;
+        }
+        [XL(Name = "UF", Order = 5)]
+        public string State
+        {
+            get;
+            set;
+        }
+        [XL(Name = "CPF", Order = 6)]
+        public string ClientCode
+        {
+            get;
+            set;
+        }
+        [XL(Name = "NOME CLI", Order = 7)]
+        public string ClientName
+        {
+            get;
+            set;
+        }
+        [XL(Name = "UF CLI", Order = 8)]
+        public string ClientState
+        {
+            get;
+            set;
+        }
+        [XL(Name = "CNPJ", Order = 9)]
+        public string CompanyCode
+        {
+            get;
+            set;
+        }
+        [XL(Name = "RAZAO", Order = 10)]
+        public string CompanyName { get; set; }
+        [XL(Name = "ITEMS", Order = 99)]
+        public List<IFiscalDocumentItem> Items
+        {
+            get;
+            set;
+        }
+        [XL(Name = "DESCONTO", Order = 99)]
         public double TotalDiscount
         {
             get;
             set;
         }
-        [ColumnName(Name = "FRETE", Order = 12)]
+        [XL(Name = "FRETE", Order = 99)]
         public double TotalShipping
         {
             get;
             set;
         }
-        [ColumnName(Name = "TOTAL", Order = 13)]
+        [XL(Name = "TOTAL", Order = 99)]
         public double TotalValue
         {
             get;set;
@@ -116,6 +115,7 @@ namespace NFEXL.Model
                 IFiscalDocumentItem item = nod.ToFiscalDocumentItem();
                 item.PartialDiscount = 0; //calculo
                 item.PartialShipping = 0; //calculo
+                Items.Add(item);
             }
             
 
