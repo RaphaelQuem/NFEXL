@@ -1,5 +1,6 @@
 ﻿using NFEXL.Attributes;
 using NFEXL.Extension;
+using NFEXL.Interface;
 using NFEXL.Model;
 using OfficeOpenXml;
 using System;
@@ -21,37 +22,39 @@ namespace ConsoleApplication1
         {
 
             FileInfo file = new FileInfo("C:\\NFE-APP\\RESULTADO-" + DateTime.Today.ToShortDateString().Replace("/", "-") + "-" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + ".XLSX");
-
-            Console.WriteLine("Entre com o caminho:");
-
-            string dir = Console.ReadLine().Replace("\\", "\\\\");
-
-
-            using (ExcelPackage package = new ExcelPackage(file))
+            while (true)
             {
-                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Exportação");
-                ExcelWorksheet logsheet = package.Workbook.Worksheets.Add("Log");
+                Console.WriteLine("Entre com o caminho:");
+
+                string dir = Console.ReadLine().Replace("\\", "\\\\");
 
 
-                int rowNumber = 2;
-                int logrownumber = 1;
-                foreach (string ped in Directory.EnumerateFiles(dir))
+                using (ExcelPackage package = new ExcelPackage(file))
                 {
-                    XmlDocument xml = new XmlDocument();
-                    xml.Load(ped);
-                    try
-                    {
-                        WriteDocXL(xml.ToFiscalDocument(), worksheet,ref rowNumber, logsheet,ref logrownumber);
-                    }
-                    catch
-                    {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Exportação");
+                    ExcelWorksheet logsheet = package.Workbook.Worksheets.Add("Log");
 
+
+                    int rowNumber = 2;
+                    int logrownumber = 1;
+                    foreach (string ped in Directory.EnumerateFiles(dir))
+                    {
+                        XmlDocument xml = new XmlDocument();
+                        xml.Load(ped);
+                        try
+                        {
+                            WriteDocXL(xml.ToFiscalDocument(), worksheet, ref rowNumber, logsheet, ref logrownumber);
+                        }
+                        catch
+                        {
+
+                        }
+                        rowNumber++;
                     }
-                    rowNumber++;
+
+                    package.Save();
+
                 }
-
-                package.Save();
-
             }
         }
         public static void WriteDocXL(IFiscalDocument doc, ExcelWorksheet sheet, ref int rowNumber, ExcelWorksheet logsheet,ref int logrownumber)

@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 
-namespace NFEXL.Model
+namespace NFEXL.Interface
 {
     public interface IFiscalDocument
     {
         string Key { get; set; }
         string State { get; set; }
         string Mod { get; set; }
+        int Type { get; set; }
         uint DocumentNumber { get; set; }
         string EmissionDate { get; set; }
         string CompanyCode { get; set; }

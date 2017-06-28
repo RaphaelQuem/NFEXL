@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace NFEXL.Model
 {
-    public class CFeItem : IFiscalDocumentItem
+    public class NFeItem : IFiscalDocumentItem
     {
         [XL(Name = "COD PRODUTO", Order = 1)]
         public string ProductCode { get; set; }
@@ -39,10 +39,11 @@ namespace NFEXL.Model
         public double PartialShipping { get; set; }
         [XL(Name = "DESCONTO", Order = 16)]
         public double PartialDiscount { get; set; }
-        public CFeItem(XmlNode nod)
+        public NFeItem(XmlNode nod)
         {
             ProductCode = nod.GetNodeByPath("prod/cProd");
             ProductName = nod.GetNodeByPath("prod/xProd");
+            PartialDiscount = nod.GetNodeByPath("prod/vDesc").ToNumericType<double>();
             ProductFiscalGroup = nod.GetNodeByPath("prod/NCM").ToNumericType<uint>();
             OperationCode = nod.GetNodeByPath("prod/CFOP").ToNumericType<int>();
             Amount = nod.GetNodeByPath("prod/qCom").ToNumericType<double>();

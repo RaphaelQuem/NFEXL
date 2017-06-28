@@ -1,6 +1,4 @@
-﻿using NFEXL.Attributes;
-
-namespace NFEXL.Model
+﻿namespace NFEXL.Interface
 {
     public interface IFiscalDocumentItem
     {

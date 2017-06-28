@@ -3,11 +3,14 @@ using NFEXL.Extension;
 using NFEXL.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace NFEXL.Model
 {
-    public class CFe : IFiscalDocument
+    public class NFe : IFiscalDocument
     {
         [XL(Name = "DATA", Order = 1)]
         public string EmissionDate
@@ -33,38 +36,43 @@ namespace NFEXL.Model
             get;
             set;
         }
-
-        [XL(Name = "UF", Order = 5)]
+        [XL(Name = "TIPO", Order = 5)]
+        public int Type
+        {
+            get;
+            set;
+        }
+        [XL(Name = "UF", Order = 6)]
         public string State
         {
             get;
             set;
         }
-        [XL(Name = "CPF", Order = 6)]
+        [XL(Name = "CPF", Order = 7)]
         public string ClientCode
         {
             get;
             set;
         }
-        [XL(Name = "NOME CLI", Order = 7)]
+        [XL(Name = "NOME CLI", Order = 8)]
         public string ClientName
         {
             get;
             set;
         }
-        [XL(Name = "UF CLI", Order = 8)]
+        [XL(Name = "UF CLI", Order = 9)]
         public string ClientState
         {
             get;
             set;
         }
-        [XL(Name = "CNPJ", Order = 9)]
+        [XL(Name = "CNPJ", Order = 10)]
         public string CompanyCode
         {
             get;
             set;
         }
-        [XL(Name = "RAZAO", Order = 10)]
+        [XL(Name = "RAZAO", Order = 11)]
         public string CompanyName { get; set; }
         [XL(Name = "ITEMS", Order = 99)]
         public List<IFiscalDocumentItem> Items
@@ -87,59 +95,44 @@ namespace NFEXL.Model
         [XL(Name = "TOTAL", Order = 99)]
         public double TotalValue
         {
-            get;set;
-        }
-        [XL(Name = "TIPO", Order = 99)]
-        public int Type
-        {
-            get;
-            set;
+            get; set;
         }
 
-        public CFe(XmlDocument doc)
+        public NFe(XmlDocument doc)
         {
 
-            Key = doc.GetElementsByTagName("infCFe")[0].Attributes[0].Value;
-            State = doc.GetNodeValue("cUF");
+            Key = doc.GetNodeValue("chNFe", "infProt");
+            State = doc.GetNodeValue("cUF", "ide");
             Mod = doc.GetNodeValue("mod");
             Type = doc.GetNodeValue("tpNF").ToNumericType<int>();
-            DocumentNumber = doc.GetNodeValue("nCFe").ToNumericType<uint>();
-            EmissionDate = doc.GetNodeValue("dEmi", "ide");
+            DocumentNumber = doc.GetNodeValue("nNF").ToNumericType<uint>();
+            EmissionDate = doc.GetNodeValue("dhEmi", "ide");
             CompanyCode = doc.GetNodeValue("CNPJ", "emit");
             CompanyName = doc.GetNodeValue("xNome", "emit");
-            ClientCode = doc.GetNodeValue("CPF","dest");
-            ClientName = doc.GetNodeValue("xNome","dest");
-            ClientState = doc.GetNodeValue("UF","enderDest");
-            TotalValue = doc.GetNodeValue("vCFe","total").ToNumericType<double>();
-            TotalDiscount = doc.GetNodeValue("vDesc", "total").ToNumericType<double>();
-            TotalShipping = doc.GetNodeValue("vFrete", "total").ToNumericType<double>(); ;
+            ClientCode = doc.GetNodeValue("CPF", "dest");
+            ClientName = doc.GetNodeValue("xNome", "dest");
+            ClientState = doc.GetNodeValue("UF", "enderDest");
+            TotalValue = doc.GetNodeValue("vNF").ToNumericType<double>();
+            TotalDiscount = doc.GetNodeValue("vDesc", "ICMSTot").ToNumericType<double>();
+            TotalShipping = doc.GetNodeValue("vFrete", "ICMSTot").ToNumericType<double>(); ;
 
             Items = new List<IFiscalDocumentItem>();
 
-            double sumdisc = 0;
             double sumship = 0;
             XmlNodeList detElements = doc.GetElementsByTagName("det");
             foreach (XmlNode nod in detElements)
             {
                 IFiscalDocumentItem item = nod.ToFiscalDocumentItem(ItemType.NfeItemType);
-                item.PartialDiscount = Math.Round(item.TotalValue / (TotalValue - TotalShipping + TotalDiscount) * TotalDiscount, 2);
                 item.PartialShipping = Math.Round(item.TotalValue / (TotalValue - TotalShipping + TotalDiscount) * TotalShipping, 2);
 
-                sumdisc += item.PartialDiscount;
                 sumship += item.PartialShipping;
 
                 Items.Add(item);
             }
 
-            double discleft = TotalDiscount - sumdisc;
             double shipleft = TotalShipping - sumship;
 
-
-            Items[0].PartialDiscount += discleft;
             Items[0].PartialDiscount += shipleft;
-
-
-
         }
     }
 }

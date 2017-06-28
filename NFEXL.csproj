@@ -50,10 +50,12 @@
     <Compile Include="Extension\PropertyExtension.cs" />
     <Compile Include="Extension\StringExtension.cs" />
     <Compile Include="Extension\XmlExtension.cs" />
+    <Compile Include="Model\NFeItem.cs" />
+    <Compile Include="Model\NFe.cs" />
     <Compile Include="Model\CFe.cs" />
     <Compile Include="Model\CFeItem.cs" />
-    <Compile Include="Model\IFiscalDocument.cs" />
-    <Compile Include="Model\IFiscalDocumentItem.cs" />
+    <Compile Include="Interface\IFiscalDocument.cs" />
+    <Compile Include="Interface\IFiscalDocumentItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

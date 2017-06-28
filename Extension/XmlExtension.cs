@@ -1,22 +1,30 @@
-﻿using NFEXL.Model;
+﻿using NFEXL.Interface;
+using NFEXL.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace NFEXL.Extension
 {
+    public  enum ItemType
+    {
+        NfeItemType,
+        CfeItemType,
+    }
     public static class XmlExtension
     {
         public static IFiscalDocument ToFiscalDocument(this XmlDocument doc)
         {
-            return new CFe(doc);
+            if (doc.GetElementsByTagName("infNFe").Count > 0)
+                return new NFe(doc);
+            else
+                return new CFe(doc);
         }
-        public static IFiscalDocumentItem ToFiscalDocumentItem(this XmlNode nod)
+        public static IFiscalDocumentItem ToFiscalDocumentItem(this XmlNode nod,ItemType type)
         {
-            return new CFeItem(nod);
+            if (type.Equals(ItemType.NfeItemType))
+                return new NFeItem(nod);
+            else
+                return new CFeItem(nod);
         }
         public static string GetNodeValue(this XmlDocument doc, string node, string fathernode = "")
         {
@@ -45,25 +53,44 @@ namespace NFEXL.Extension
             }
             return value;
         }
-        public static string GetNodeValue(this XmlNode nod, string node,string fathernode="")
+        public static string GetNodeByPath(this XmlNode nod, string path)
         {
-            string value = "";
+
+            int slash =path.IndexOf("/");
+            string relativepath = (slash > 0? path.Substring(0, path.IndexOf("/")):path);
+            string pathtail = (slash > 0 ? path.Replace(relativepath + "/", "") : "");
+
+
+            foreach (XmlNode childnod  in nod.ChildNodes)
+            {
+                if(childnod.Name.Equals(relativepath))
+                {
+                    if (path.Equals(relativepath))
+                        return childnod.InnerText;
+                    else
+                        return childnod.GetNodeByPath(pathtail);
+                }
+            }
+
+
+            return "";
+            /*string value = "";
 
 
             try
             {
-                if(!fathernode.Equals(""))
+                if (!fathernode.Equals(""))
                     value = nod.SelectSingleNode(fathernode).SelectSingleNode(node).InnerText;
                 else
                     value = nod.SelectSingleNode(node).InnerText;
 
             }
-            catch
+            catch(Exception ex)
             {
 
             }
 
-            return value;
+            return value;*/
         }
 
 
