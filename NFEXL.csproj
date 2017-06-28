@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\XlAtributte.cs" />
+    <Compile Include="Controller\IOController.cs" />
     <Compile Include="Controller\NFEXLController.cs" />
     <Compile Include="Extension\PropertyExtension.cs" />
     <Compile Include="Extension\StringExtension.cs" />
