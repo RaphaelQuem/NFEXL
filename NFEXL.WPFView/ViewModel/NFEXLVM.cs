@@ -36,10 +36,10 @@ namespace NFEXL.View.ViewModel
         private Visibility isExporting;
         #endregion
         #region  Properties
-        public List<string> InputPaths { get { return inputPaths; } set { inputPaths = value; NotifyPropertyChanged("InputPaths"); } }
-        public string InputPath { get { return inputPath; } set { inputPath = value; NotifyPropertyChanged("InputPath"); } }
-        public List<string> OutputPaths { get { return outputPaths; } set { outputPaths = value; NotifyPropertyChanged("OutputPaths"); } }
-        public string OutputPath { get { return outputPath; } set { outputPath = value; NotifyPropertyChanged("OutputPath"); } }
+        public List<string> InputPaths { get { return iocontroller.GetPaths("INPUT"); } set { inputPaths = value; NotifyPropertyChanged("InputPaths"); } }
+        public string InputPath { get { return inputPath; } set { inputPath = value; NotifyPropertyChanged("InputPath"); NotifyPropertyChanged("InputPaths"); } }
+        public List<string> OutputPaths { get { return iocontroller.GetPaths("OUTPUT"); } set { outputPaths = value; NotifyPropertyChanged("OutputPaths"); } }
+        public string OutputPath { get { return outputPath; } set { outputPath = value; NotifyPropertyChanged("OutputPath"); NotifyPropertyChanged("OutputPaths"); } }
         public Visibility IsExporting { get { return isExporting; } set { isExporting = value; NotifyPropertyChanged("IsExporting"); } }
         #endregion
         #region Methods
@@ -48,8 +48,6 @@ namespace NFEXL.View.ViewModel
             iocontroller =  new IOController();
             controller = new NFEXLController();
             okCommand = new CommandHandler(Ok);
-            InputPaths = iocontroller.GetInputPaths();
-            OutputPaths = iocontroller.GetOutputPaths();
             if(InputPaths.Count > 0)
                 InputPath = InputPaths[InputPaths.Count - 1];
             if (OutputPaths.Count > 0)

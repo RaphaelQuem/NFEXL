@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,40 +8,24 @@ namespace NFEXL.Controller
 {
     public class IOController
     {
-        private const string INPUTPATH = "C:\\NFEXL.in";
-        private const string OUTPUTPATH = "C:\\NFEXL.out";
-        public List<string> GetOutputPaths()
+        public List<string> GetPaths(string io)
         {
-            List<string> ret = new List<string>();
-            if (File.Exists(OUTPUTPATH))
-            {
-                StreamReader rdr = new StreamReader(OUTPUTPATH);
-                while (!rdr.EndOfStream)
-                {
-                    ret.Add(rdr.ReadLine().Trim());
-                }
-            }
-            return ret;
-        }
-        public List<string> GetInputPaths()
-        {
-            List<string> ret = new List<string>();
-            if (File.Exists(INPUTPATH))
-            {
-                StreamReader rdr = new StreamReader(INPUTPATH);
-                while (!rdr.EndOfStream)
-                {
-                    ret.Add(rdr.ReadLine().Trim());
-                }
-            }
-            return ret;
+
+            RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE", true);
+
+            key.CreateSubKey("NFEXL");
+            key = key.OpenSubKey("NFEXL", true);
+
+            return key.GetValue(io).ToString().Replace("\r","").Split('\n').ToList();
+
         }
         public void PersistPaths(string input, string output)
         {
-            AppendTextToFile(INPUTPATH, input);
-            AppendTextToFile(OUTPUTPATH, output);
+            AppendTextToRegistry("INPUT", input);
+            AppendTextToRegistry("OUTPUT", output);
         }
-        private void AppendTextToFile(string path,string newline)
+
+        private void AppendTextToFile(string path, string newline)
         {
             string text = "";
             if (File.Exists(path))
@@ -61,12 +46,31 @@ namespace NFEXL.Controller
             }
             else
             {
-                using (StreamWriter wtr = new StreamWriter(path ))
+                using (StreamWriter wtr = new StreamWriter(path))
                 {
                     wtr.WriteLine(newline);
                 }
 
             }
+        }
+        public void AppendTextToRegistry(string id,string newline)
+        {
+            RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE",true);
+
+            key.CreateSubKey("NFEXL");
+            key = key.OpenSubKey("NFEXL", true);
+
+            string text = key.GetValue(id).ToString();
+            if (text.Split('\n').Count() >= 10)
+                text = text.Replace(text.Substring(0, text.IndexOf('\n')), "").Trim();
+            if (!text.Contains(newline))
+            {
+
+                text += Environment.NewLine + newline;
+            }
+
+            key.SetValue(id, text);
+
         }
     }
 }

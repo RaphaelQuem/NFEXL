@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFEXL", "NFEXL.csproj", "{5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFEXL.WPFView", "NFEXL.WPFView\NFEXL.WPFView.csproj", "{2FF925DB-5466-4C82-9579-17AF26E3B81A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NFEXL.Test", "..\NFEXL.Test\NFEXL.Test.csproj", "{1EFA7550-BA2B-41E7-9490-7576823316CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2FF925DB-5466-4C82-9579-17AF26E3B81A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FF925DB-5466-4C82-9579-17AF26E3B81A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FF925DB-5466-4C82-9579-17AF26E3B81A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EFA7550-BA2B-41E7-9490-7576823316CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EFA7550-BA2B-41E7-9490-7576823316CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EFA7550-BA2B-41E7-9490-7576823316CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EFA7550-BA2B-41E7-9490-7576823316CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
