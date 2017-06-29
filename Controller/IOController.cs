@@ -16,7 +16,7 @@ namespace NFEXL.Controller
             key.CreateSubKey("NFEXL");
             key = key.OpenSubKey("NFEXL", true);
 
-            return key.GetValue(io).ToString().Replace("\r","").Split('\n').ToList();
+            return (key.GetValue(io)==null? new List<string>():key.GetValue(io).ToString().Replace("\r","").Split('\n').ToList());
 
         }
         public void PersistPaths(string input, string output)
