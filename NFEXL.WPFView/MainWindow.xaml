@@ -1,0 +1,43 @@
+﻿<Window x:Class="NFEXL.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NFEXL.View"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStartupLocation="CenterScreen">
+    <Border              CornerRadius="10"
+             Background="DarkSlateGray" Margin="0,0,0,0">
+        <Grid Margin="6,60,6,12" Background="LightGray">
+            <Label x:Name="label" Content="NFEXL" HorizontalAlignment="Center" VerticalAlignment="Top"  FontWeight="Bold" FontSize="32" Foreground="LightGray" Margin="201,-55,203,0"/>
+            <Label x:Name="xmls" Content="Caminho dos XML:" HorizontalAlignment="Left" VerticalAlignment="Top"  FontWeight="Bold" FontSize="32" Foreground="DarkSlateGray" Margin="10,6,0,0" Width="490"/>
+            <ComboBox ItemsSource="{Binding InputPaths}" 
+                                  Text="{Binding InputPath}"
+                                  IsSynchronizedWithCurrentItem="True" Margin="10,59,10,180"
+                                  Background="White"
+                                  FontSize="26" 
+                                  BorderBrush="White"
+                                  Foreground="DarkSlateGray"
+                                  IsEditable="True"/>
+            <Label x:Name="xmls_Copy" Content="Caminho para salvar:" HorizontalAlignment="Left" VerticalAlignment="Top"  FontWeight="Bold" FontSize="32" Foreground="DarkSlateGray" Margin="10,104,0,0" Width="490"/>
+            <ComboBox ItemsSource="{Binding OutputPaths}" 
+                                  Text="{Binding OutputPath}"
+                                  IsSynchronizedWithCurrentItem="True"
+                                  Margin="10,159,10,80"
+                                  FontSize="26" 
+                                  BorderBrush="White"
+                                  Foreground="DarkSlateGray"
+                                  IsEditable="True"/>
+
+            <Button Margin="214,214,213,15" Background="Azure" BorderBrush="DarkSlateGray" Command="{Binding OkCommand}"  Content="OK" FontWeight="ExtraBold" FontSize="28" Foreground="DarkSlateGray"/>
+            <Button Margin="464,-51,2,286" Background="Salmon" BorderBrush="DarkSlateGray" Click="Button_Click"  Content="X" FontWeight="ExtraBold" FontSize="28" Foreground="DarkSlateGray"/>
+
+
+        </Grid>
+
+    </Border>
+</Window>
