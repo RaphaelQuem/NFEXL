@@ -60,7 +60,7 @@ namespace NFEXL.Controller
             key.CreateSubKey("NFEXL");
             key = key.OpenSubKey("NFEXL", true);
 
-            string text = key.GetValue(id).ToString();
+            string text = (key.GetValue(id)??"").ToString();
             if (text.Split('\n').Count() >= 10)
                 text = text.Replace(text.Substring(0, text.IndexOf('\n')), "").Trim();
             if (!text.Contains(newline))
