@@ -15,8 +15,11 @@ namespace NFEXL.Controller
 {
     public class NFEXLController
     {
+        private IOController iocontroller = new IOController();
         public void ExportXML(string outputpath, string inputpath)
         {
+            iocontroller.PersistPaths(inputpath, outputpath);
+
             outputpath += "\\RESULTADO-" + DateTime.Today.ToShortDateString().Replace("/", "-") + "-" + DateTime.Now.Hour + "-" + DateTime.Now.Minute + ".XLSX";
             FileInfo file = new FileInfo(outputpath);
 

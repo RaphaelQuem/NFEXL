@@ -74,23 +74,6 @@ namespace NFEXL.Extension
 
 
             return "";
-            /*string value = "";
-
-
-            try
-            {
-                if (!fathernode.Equals(""))
-                    value = nod.SelectSingleNode(fathernode).SelectSingleNode(node).InnerText;
-                else
-                    value = nod.SelectSingleNode(node).InnerText;
-
-            }
-            catch(Exception ex)
-            {
-
-            }
-
-            return value;*/
         }
 
 
