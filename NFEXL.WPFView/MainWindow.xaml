@@ -9,7 +9,8 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        >
     <Border              CornerRadius="10"
              Background="DarkSlateGray" Margin="0,0,0,0">
         <Grid Margin="6,60,6,12" Background="LightGray">
