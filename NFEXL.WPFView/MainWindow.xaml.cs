@@ -18,6 +18,8 @@ namespace NFEXL.View
 {
     public partial class MainWindow : Window
     {
+        private double dx = 0;
+        private double dy = 0;
         public MainWindow()
         {
             InitializeComponent();
@@ -32,6 +34,21 @@ namespace NFEXL.View
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void Window_MouseMove(object sender, MouseEventArgs e)
+        {
+            if(Mouse.LeftButton.Equals(MouseButtonState.Pressed))
+            {
+                this.Top = System.Windows.Forms.Control.MousePosition.Y - dy;
+                this.Left = System.Windows.Forms.Control.MousePosition.X - dx;
+            }
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            dx = System.Windows.Forms.Control.MousePosition.X - this.Left;
+            dy = System.Windows.Forms.Control.MousePosition.Y - this.Top;
         }
     }
 }

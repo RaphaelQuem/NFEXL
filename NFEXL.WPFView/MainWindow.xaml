@@ -9,7 +9,7 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterScreen" MouseMove="Window_MouseMove" MouseDown="Window_MouseDown"
         >
     <Border              CornerRadius="10"
              Background="DarkSlateGray" Margin="0,0,0,0">
