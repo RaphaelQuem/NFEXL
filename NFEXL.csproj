@@ -91,6 +91,7 @@
     <Compile Include="Extension\PropertyExtension.cs" />
     <Compile Include="Extension\StringExtension.cs" />
     <Compile Include="Extension\XmlExtension.cs" />
+    <Compile Include="Model\IDEvent.cs" />
     <Compile Include="Model\NFeItem.cs" />
     <Compile Include="Model\NFe.cs" />
     <Compile Include="Model\CFe.cs" />

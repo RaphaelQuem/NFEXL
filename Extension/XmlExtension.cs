@@ -16,8 +16,10 @@ namespace NFEXL.Extension
         {
             if (doc.GetElementsByTagName("infNFe").Count > 0)
                 return new NFe(doc);
-            else
+            else if (doc.GetElementsByTagName("infNFe").Count > 0)
                 return new CFe(doc);
+            else
+                return new IDEvent(doc);
         }
         public static IFiscalDocumentItem ToFiscalDocumentItem(this XmlNode nod,ItemType type)
         {
