@@ -57,5 +57,8 @@ namespace NFEXL.Model
             Tax3Perc = nod.GetNodeByPath("imposto/COFINS/COFINSAliq/pCOFINS").ToNumericType<double>();
             Tax3 = nod.GetNodeByPath("imposto/COFINS/COFINSAliq/vCOFINS").ToNumericType<double>();
         }
+        public NFeItem()
+        {
+        }
     }
 }

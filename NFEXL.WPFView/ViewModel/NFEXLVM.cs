@@ -62,7 +62,7 @@ namespace NFEXL.View.ViewModel
                 controller.ExportXML(OutputPath, InputPath);
                 Mouse.OverrideCursor = Cursors.Arrow;
             }
-            catch(Exception ex)
+            catch
             {
                 Mouse.OverrideCursor = Cursors.Arrow;
             }
