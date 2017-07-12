@@ -27,18 +27,44 @@ namespace NFEXL.View
 
         private void Window_MouseMove(object sender, MouseEventArgs e)
         {
-            
-            if(Mouse.LeftButton.Equals(MouseButtonState.Pressed))
+
+            if (Mouse.LeftButton.Equals(MouseButtonState.Pressed))
             {
-                this.Top = System.Windows.Forms.Control.MousePosition.Y - dy;
-                this.Left = System.Windows.Forms.Control.MousePosition.X - dx;
+
+                double my = System.Windows.Forms.Control.MousePosition.Y;
+                double mx = System.Windows.Forms.Control.MousePosition.X;
+                double ileft = InputCombo.Margin.Left + Left + ControlGrid.Margin.Left;
+                double itop = InputCombo.Margin.Top + Top + ControlGrid.Margin.Top;
+                double oleft = OutputCombo.Margin.Left + Left + ControlGrid.Margin.Left;
+                double otop = OutputCombo.Margin.Top + Top + ControlGrid.Margin.Top;
+
+                if (mx > ileft && mx < ileft + InputCombo.ActualWidth)
+                {
+                    if (my > itop && my < itop + InputCombo.ActualHeight)
+                    {
+                        return;
+                    }
+                }
+                if (mx > oleft && mx < oleft + OutputCombo.ActualWidth)
+                {
+                    if (my > otop && my < otop + OutputCombo.ActualHeight)
+                    {
+                        return;
+                    }
+                }
+
+                this.Top = my - dy;
+                this.Left = mx - dx;
+
             }
         }
+
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             dx = System.Windows.Forms.Control.MousePosition.X - this.Left;
             dy = System.Windows.Forms.Control.MousePosition.Y - this.Top;
         }
+
     }
 }
