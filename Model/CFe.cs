@@ -43,46 +43,77 @@ namespace NFEXL.Model
         public CFe(XmlDocument doc)
         {
 
+            bool canc = false;
             Key = doc.GetElementsByTagName("infCFe")[0].Attributes[0].Value;
-            State = doc.GetNodeValue("cUF");
-            Mod = doc.GetNodeValue("mod");
-            Type = doc.GetNodeValue("tpNF").ToNumericType<int>();
-            DocumentNumber = doc.GetNodeValue("nCFe").ToNumericType<uint>();
-            EmissionDate = doc.GetNodeValue("dEmi", "ide");
-            CompanyCode = doc.GetNodeValue("CNPJ", "emit");
-            CompanyName = doc.GetNodeValue("xNome", "emit");
-            ClientCode = doc.GetNodeValue("CPF","dest");
-            ClientName = doc.GetNodeValue("xNome","dest");
-            ClientState = doc.GetNodeValue("UF","enderDest");
-            TotalValue = doc.GetNodeValue("vCFe","total").ToNumericType<double>();
-            TotalDiscount = doc.GetNodeValue("vDesc", "total").ToNumericType<double>();
-            TotalShipping = doc.GetNodeValue("vFrete", "total").ToNumericType<double>(); 
-            
-
-            Items = new List<IFiscalDocumentItem>();
-
-            double sumdisc = 0;
-            double sumship = 0;
-            XmlNodeList detElements = doc.GetElementsByTagName("det");
-            foreach (XmlNode nod in detElements)
+            foreach(XmlAttribute att in doc.GetElementsByTagName("infCFe")[0].Attributes)
             {
-                IFiscalDocumentItem item = nod.ToFiscalDocumentItem(ItemType.NfeItemType);
-                item.PartialDiscount = Math.Round(item.TotalValue / (TotalValue - TotalShipping + TotalDiscount) * TotalDiscount, 2);
-                item.PartialShipping = Math.Round(item.TotalValue / (TotalValue - TotalShipping + TotalDiscount) * TotalShipping, 2);
-
-                sumdisc += item.PartialDiscount;
-                sumship += item.PartialShipping;
-
-                Items.Add(item);
+                if (att.Name.Equals("chCanc"))
+                {
+                    canc = true;
+                    Key = att.Value;
+                }
             }
 
-            double discleft = TotalDiscount - sumdisc;
-            double shipleft = TotalShipping - sumship;
+            if (!canc)
+            {
+                State = doc.GetNodeValue("cUF");
+                Mod = doc.GetNodeValue("mod");
+                Type = doc.GetNodeValue("tpNF").ToNumericType<int>();
+                DocumentNumber = doc.GetNodeValue("nCFe").ToNumericType<uint>();
+                EmissionDate = doc.GetNodeValue("dEmi", "ide");
+                CompanyCode = doc.GetNodeValue("CNPJ", "emit");
+                CompanyName = doc.GetNodeValue("xNome", "emit");
+                ClientCode = doc.GetNodeValue("CPF", "dest");
+                ClientName = doc.GetNodeValue("xNome", "dest");
+                ClientState = doc.GetNodeValue("UF", "enderDest");
+                TotalValue = doc.GetNodeValue("vCFe", "total").ToNumericType<double>();
+                TotalDiscount = doc.GetNodeValue("vDesc", "total").ToNumericType<double>();
+                TotalShipping = doc.GetNodeValue("vFrete", "total").ToNumericType<double>();
 
 
-            Items[0].PartialDiscount += discleft;
-            Items[0].PartialDiscount += shipleft;
+                Items = new List<IFiscalDocumentItem>();
 
+                double sumdisc = 0;
+                double sumship = 0;
+                XmlNodeList detElements = doc.GetElementsByTagName("det");
+                foreach (XmlNode nod in detElements)
+                {
+                    IFiscalDocumentItem item = nod.ToFiscalDocumentItem(ItemType.NfeItemType);
+                    item.PartialDiscount = Math.Round(item.TotalValue / (TotalValue - TotalShipping + TotalDiscount) * TotalDiscount, 2);
+                    item.PartialShipping = Math.Round(item.TotalValue / (TotalValue - TotalShipping + TotalDiscount) * TotalShipping, 2);
+
+                    sumdisc += item.PartialDiscount;
+                    sumship += item.PartialShipping;
+
+                    Items.Add(item);
+                }
+
+                double discleft = TotalDiscount - sumdisc;
+                double shipleft = TotalShipping - sumship;
+
+
+                Items[0].PartialDiscount += discleft;
+                Items[0].PartialDiscount += shipleft;
+            }
+            else
+            {
+                State = doc.GetNodeValue("cUF");
+                Mod = doc.GetNodeValue("mod");
+                Type = 99;
+                DocumentNumber = doc.GetNodeValue("nCFe").ToNumericType<uint>();
+                EmissionDate = doc.GetNodeValue("dEmi", "ide");
+                CompanyCode = doc.GetNodeValue("CNPJ", "emit");
+                CompanyName = doc.GetNodeValue("xNome", "emit");
+                ClientCode = doc.GetNodeValue("CPF", "dest");
+                ClientName = doc.GetNodeValue("xNome", "dest");
+                ClientState = doc.GetNodeValue("UF", "enderDest");
+                TotalValue = doc.GetNodeValue("vCFe", "total").ToNumericType<double>();
+                TotalDiscount = doc.GetNodeValue("vDesc", "total").ToNumericType<double>();
+                TotalShipping = doc.GetNodeValue("vFrete", "total").ToNumericType<double>();
+                Items = new List<IFiscalDocumentItem>();
+                Items.Add(new NFeItem());
+
+            }
 
 
         }

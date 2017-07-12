@@ -16,7 +16,7 @@ namespace NFEXL.Extension
         {
             if (doc.GetElementsByTagName("infNFe").Count > 0)
                 return new NFe(doc);
-            else if (doc.GetElementsByTagName("infNFe").Count > 0)
+            else if (doc.GetElementsByTagName("infCFe").Count > 0)
                 return new CFe(doc);
             else
                 return new IDEvent(doc);

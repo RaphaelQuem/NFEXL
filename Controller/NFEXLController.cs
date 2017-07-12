@@ -36,17 +36,20 @@ namespace NFEXL.Controller
                 int logrownumber = 1;
                 foreach (string ped in Directory.EnumerateFiles(dir))
                 {
-                    XmlDocument xml = new XmlDocument();
-                    xml.Load(ped);
-                    try
+                    if (ped.Contains(".xml"))
                     {
-                        WriteDocXL(xml.ToFiscalDocument(), worksheet, ref rowNumber, logsheet, ref logrownumber);
-                    }
-                    catch
-                    {
+                        XmlDocument xml = new XmlDocument();
+                        xml.Load(ped);
+                        try
+                        {
+                            WriteDocXL(xml.ToFiscalDocument(), worksheet, ref rowNumber, logsheet, ref logrownumber);
+                        }
+                        catch
+                        {
 
+                        }
+                        rowNumber++;
                     }
-                    rowNumber++;
                 }
 
                 package.Save();
