@@ -1,11 +1,6 @@
 ﻿using NFEXL.Attributes;
-using NFEXL.Extension;
 using NFEXL.Interface;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace NFEXL.Model
