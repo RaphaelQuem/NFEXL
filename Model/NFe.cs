@@ -64,20 +64,30 @@ namespace NFEXL.Model
             Items = new List<IFiscalDocumentItem>();
 
             double sumship = 0;
+            double sumdisc = 0;
             XmlNodeList detElements = doc.GetElementsByTagName("det");
             foreach (XmlNode nod in detElements)
             {
                 IFiscalDocumentItem item = nod.ToFiscalDocumentItem(ItemType.NfeItemType);
-                item.PartialShipping = Math.Round(item.TotalValue / (TotalValue - TotalShipping + TotalDiscount) * TotalShipping, 2);
+                item.PartialShipping = Math.Round((item.CalcBase / TotalValue)  * TotalShipping, 2);
+                item.PartialDiscount = Math.Round((item.CalcBase / TotalValue) * TotalDiscount, 2);
 
                 sumship += item.PartialShipping;
+                sumdisc += item.PartialDiscount;
 
                 Items.Add(item);
             }
 
             double shipleft = TotalShipping - sumship;
+            double discleft = TotalDiscount - sumdisc;
 
-            Items[0].PartialDiscount += shipleft;
+            Items[0].PartialShipping += shipleft;
+            Items[0].PartialDiscount += discleft;
+
+
+
+
+
         }
     }
 }

@@ -2,6 +2,7 @@
 using NFEXL.Extension;
 using NFEXL.Interface;
 using System.Xml;
+using System;
 
 namespace NFEXL.Model
 {
@@ -39,6 +40,20 @@ namespace NFEXL.Model
         public double PartialShipping { get; set; }
         [XL(Name = "DESCONTO", Order = 16)]
         public double PartialDiscount { get; set; }
+
+        public double CalcBase
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public CFeItem(XmlNode nod)
         {
             ProductCode = nod.GetNodeByPath("prod/cProd");

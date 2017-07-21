@@ -2,6 +2,7 @@
 using NFEXL.Extension;
 using NFEXL.Interface;
 using System.Xml;
+using System;
 
 namespace NFEXL.Model
 {
@@ -39,6 +40,9 @@ namespace NFEXL.Model
         public double PartialShipping { get; set; }
         [XL(Name = "DESCONTO", Order = 16)]
         public double PartialDiscount { get; set; }
+        [XL(Name = "DESCONTO", Order = 99)]
+        public double CalcBase { get; set; }
+
         public NFeItem(XmlNode nod)
         {
             ProductCode = nod.GetNodeByPath("prod/cProd");
@@ -49,6 +53,8 @@ namespace NFEXL.Model
             Amount = nod.GetNodeByPath("prod/qCom").ToNumericType<double>();
             UnitValue = nod.GetNodeByPath("prod/vUnCom").ToNumericType<double>();
             TotalValue = nod.GetNodeByPath("prod/vProd").ToNumericType<double>();
+            CalcBase = nod.GetNodeByPath("imposto/ICMS/ICMS00/vBC").ToNumericType<double>();
+
             ProductOriginCode = nod.GetNodeByPath("prod/CST").ToNumericType<int>();
             Tax1Perc = nod.GetNodeByPath("imposto/ICMS/ICMS00/pICMS").ToNumericType<double>();
             Tax1 = nod.GetNodeByPath("imposto/ICMS/ICMS00/vICMS").ToNumericType<double>();

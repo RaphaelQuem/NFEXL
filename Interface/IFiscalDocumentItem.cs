@@ -9,6 +9,7 @@
         double Amount{ get; set; }
         double UnitValue { get; set; }
         double TotalValue { get; set; }
+        double CalcBase { get; set; }
         int ProductOriginCode { get; set; }
         double Tax1Perc{ get; set; }
         double Tax1 { get; set; }
