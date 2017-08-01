@@ -8,6 +8,7 @@ namespace NFEXL.Interface
         string State { get; set; }
         string Mod { get; set; }
         int Type { get; set; }
+        uint Series { get; set; }
         uint DocumentNumber { get; set; }
         string EmissionDate { get; set; }
         string CompanyCode { get; set; }
